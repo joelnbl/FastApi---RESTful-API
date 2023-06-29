@@ -54,10 +54,14 @@ async def delete_user(user_id: UUID):
 async def update_user(id: UUID, updated_user: UserUpdateRequest):
     for user in db:
         if user.id == id:
-            user.first_name = updated_user.first_name
-            user.last_name = updated_user.last_name
-            user.middle_name = updated_user.middle_name
-            user.roles = updated_user.roles
+            if updated_user.first_name is not None:
+                user.first_name = updated_user.first_name
+            if updated_user.last_name is not None:
+                user.last_name = updated_user.last_name
+            if updated_user.middle_name is not None:
+                user.middle_name = updated_user.middle_name
+            if updated_user.roles is not None:
+                user.roles = updated_user.roles
             return {"message": "User updated successfully"}
     raise HTTPException (
         status_code=404,
